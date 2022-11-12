@@ -3,10 +3,7 @@
         "strict": true,
         "target": "ES5",
         "module": "CommonJS",
-        "alwaysStrict": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
         "sourceMap": true,
-        "downlevelIteration": true
+        "lib": ["ES6", "DOM"]
     }
 }

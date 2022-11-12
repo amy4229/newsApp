@@ -7,23 +7,21 @@ export class Api{
       this.url = url
     }
   
-    protected getRequest<FetchResponse>(cb:(data:FetchResponse) => void):void {
-      fetch(this.url)
-      .then(response => response.json())
-      .then(cb)
-      .catch(()=>console.error('데이터를 불러오지 못했습니다.'))
+    protected async request<FetchResponse>():Promise<FetchResponse> {
+      const response = await fetch(this.url);
+      return await response.json() as FetchResponse;     
     }
   }
   
   export class NewsFeedApi extends Api {
-    getData(cb:(data:NewsFeed[]) => void) : void {
-      this.getRequest<NewsFeed[]>(cb);
+    async getData() : Promise<NewsFeed[]> {
+      return await this.request<NewsFeed[]>();
     }
   }
 
   export class NewsDetailApi extends Api {
-    getData(cb:(data:NewsDetail) => void) :void {
-       this.getRequest<NewsDetail>(cb);
+    async getData() : Promise<NewsDetail> {
+       return await this.request<NewsDetail>();
     }
   }
   
