@@ -3,10 +3,12 @@ import View from './view';
 
 export default class Router {
     routeTable:RouteInfo[]
-    defaultRoute: RouteInfo | null
+    defaultRoute: RouteInfo | null;
+
     constructor(){
         
-      this.routeTable = [];    
+      this.routeTable = [];
+      this.defaultRoute = null;
       window.addEventListener('hashchange', this.route.bind(this));
     }
   
@@ -21,7 +23,7 @@ export default class Router {
     route(){
       const routePath = location.hash;
       
-      if (routePath === '') {
+      if (routePath === '' && this.defaultRoute) {
         this.defaultRoute.page.render();
       } 
       
