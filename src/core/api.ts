@@ -2,19 +2,16 @@ import {NewsFeed,NewsDetail} from '../types/types';
 
 export class Api{
     url: string;
-    ajax: XMLHttpRequest;
   
     constructor(url:string){
       this.url = url
-      this.ajax = new XMLHttpRequest();
     }
   
-    protected getRequest<AjaxResponse>(cb:(data:AjaxResponse) => void):void {
-      this.ajax.open('GET', this.url);
-      this.ajax.addEventListener('load', ()=>{
-        cb(JSON.parse(this.ajax.response));
-      })
-      this.ajax.send();
+    protected getRequest<FetchResponse>(cb:(data:FetchResponse) => void):void {
+      fetch(this.url)
+      .then(response => response.json())
+      .then(cb)
+      .catch(()=>console.error('데이터를 불러오지 못했습니다.'))
     }
   }
   
