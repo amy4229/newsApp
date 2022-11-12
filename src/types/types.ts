@@ -1,5 +1,17 @@
 import View from "../core/view"
 
+export interface NewsStore {
+  currentPage:number;
+  nextPage:number;
+  prevPage:number;
+  numberOfFeed:number;
+  hasFeeds:boolean;
+  getAllFeeds:()=>NewsFeed[];
+  getFeed:(position:number)=>NewsFeed
+  setFeeds:(feeds: NewsFeed[])=>void
+  makeRead:(id:number)=>void
+}
+
 export interface Store  {
   currentPage:number;
   feeds:NewsFeed[];
@@ -25,7 +37,7 @@ export interface NewsDetail extends News {
 }
   
 export interface NewsComment extends News {
-  readonly comments: NewsComment[]|null;
+  readonly comments: NewsComment[];
   readonly level: number;
 }
   
