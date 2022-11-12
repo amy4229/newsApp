@@ -40,20 +40,15 @@ export default class NewsFeedView extends View{
       
     }
   
-    render() :void{
+    async render() :Promise<void>{
       const pageNum = location.hash.split("/")[2] || 1;
       this.store.currentPage = Number(pageNum)
       
       if (!this.store.hasFeeds) {
-        this.api.getData((feeds: NewsFeed[])=>{
-          this.store.setFeeds(feeds);
-          this.renderView();
-        });
+        const feeds = await this.api.getData();
+        this.store.setFeeds(feeds);
       }
-      this.renderView();
-    }
 
-    renderView = ()=>{
       for (let i= (this.store.currentPage - 1) * 10; i < this.store.currentPage * 10; i++) {
         const feed =this.store.getFeed(i)
         this.addHtml(`
@@ -85,3 +80,4 @@ export default class NewsFeedView extends View{
     }
   
   }
+  
