@@ -37,14 +37,23 @@ export default class NewsFeedView extends View{
       super(containerId, template);
       this.api = new NewsFeedApi(NEWS_URL);
       this.store = store;
-      if (!this.store.hasFeeds) {
-        this.store.setFeeds(this.api.getData());
-      }
+      
     }
   
     render() :void{
       const pageNum = location.hash.split("/")[2] || 1;
       this.store.currentPage = Number(pageNum)
+      
+      if (!this.store.hasFeeds) {
+        this.api.getData((feeds: NewsFeed[])=>{
+          this.store.setFeeds(feeds);
+          this.renderView();
+        });
+      }
+      this.renderView();
+    }
+
+    renderView = ()=>{
       for (let i= (this.store.currentPage - 1) * 10; i < this.store.currentPage * 10; i++) {
         const feed =this.store.getFeed(i)
         this.addHtml(`

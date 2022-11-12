@@ -2,29 +2,28 @@ import {NewsFeed,NewsDetail} from '../types/types';
 
 export class Api{
     url: string;
-    ajax: XMLHttpRequest;
   
     constructor(url:string){
       this.url = url
-      this.ajax = new XMLHttpRequest();
     }
   
-    protected getRequest<AjaxResponse>() : AjaxResponse {
-      this.ajax.open('GET', this.url, false);
-      this.ajax.send();
-      return JSON.parse(this.ajax.response);
+    protected getRequest<FetchResponse>(cb:(data:FetchResponse) => void):void {
+      fetch(this.url)
+      .then(response => response.json())
+      .then(cb)
+      .catch(()=>console.error('데이터를 불러오지 못했습니다.'))
     }
   }
   
   export class NewsFeedApi extends Api {
-    getData() : NewsFeed[] {
-      return this.getRequest<NewsFeed[]>();
+    getData(cb:(data:NewsFeed[]) => void) : void {
+      this.getRequest<NewsFeed[]>(cb);
     }
   }
 
   export class NewsDetailApi extends Api {
-    getData() : NewsDetail {
-      return this.getRequest<NewsDetail>();
+    getData(cb:(data:NewsDetail) => void) :void {
+       this.getRequest<NewsDetail>(cb);
     }
   }
   
